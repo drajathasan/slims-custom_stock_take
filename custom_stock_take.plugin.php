@@ -9,4 +9,8 @@
  */
 use SLiMS\Plugins;
 
-Plugins::getInstance()->registerMenu('stock_take', __('Initialize'), __DIR__ . '/init.php');
+// check if there is any active stock take proccess
+$stk_query = \SLiMS\DB::getInstance('mysqli')->query('SELECT * FROM stock_take WHERE is_active=1');
+if ($stk_query->num_rows < 1) {
+    Plugins::getInstance()->registerMenu('stock_take', __('Initialize'), __DIR__ . '/init.php');
+}
